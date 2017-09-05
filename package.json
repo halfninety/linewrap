@@ -1,10 +1,10 @@
 {
-  "name": "linewrap",
+  "name": "@gerhobbelt/linewrap",
   "description": "Word wrapping with HTML, ANSI color code, indentation and paragraphing support.",
   "version": "0.2.2-1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/halfninety/linewrap.git"
+    "url": "git://github.com/GerHobbelt/linewrap.git"
   },
   "main": "./index.js",
   "keywords": [
@@ -26,7 +26,8 @@
   },
   "scripts": {
     "lint": "eslint ./*js test/*js example/*js",
-    "test": "mocha"
+    "test": "mocha",
+    "pub": "npm publish --access public"
   },
   "devDependencies": {
     "better-assert": "1.0.2",
