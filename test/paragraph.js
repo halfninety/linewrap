@@ -13,7 +13,6 @@ it('blankline', function () {
         res = wrap(textBL);
 
     fs.writeFileSync(__dirname + '/paragraph-out.txt', res, 'utf8');
-    assert.equal(res, resultBL);
 
     res.split(/\n/).forEach(function (line) {
         assert.ok(line.length <= 80, 'line > 80 columns');
@@ -21,6 +20,8 @@ it('blankline', function () {
             assert.ok(line[line.length - 1] !== ' ', 'trailing space not stripped');
         }
     });
+
+    assert.equal(res, resultBL);
 });
 
 it('identation', function () {
@@ -28,7 +29,6 @@ it('identation', function () {
         res = wrap(textID);
 
     fs.writeFileSync(__dirname + '/paragraph2-out.txt', res, 'utf8');
-    assert.equal(res, resultID);
 
     res.split(/\n/).forEach(function (line) {
         assert.ok(line.length <= 80, 'line > 80 columns');
@@ -36,6 +36,8 @@ it('identation', function () {
             assert.ok(line[line.length - 1] !== ' ', 'trailing space not stripped');
         }
     });
+
+    assert.equal(res, resultID);
 });
 });
 

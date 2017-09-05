@@ -67,6 +67,17 @@ var linewrap = module.exports = function (start, stop, params) {
         start = 0;
     }
 
+    var orig_start = start;
+    var orig_stop = stop;
+    start = start | 0;
+    stop = stop | 0;
+    if (!isFinite(start) || start < 0 || start >= stop) {
+        throw new TypeError('The start indent must be a sane number. "' + orig_start + '" isn\'t.');
+    }
+    if (!isFinite(stop)) {
+        throw new TypeError('The wrap stop/width must be a sane number. "' + orig_stop + '" isn\'t.');
+    }
+
     if (!params) { params = {}; }
     // Supported options and default values.
     var preset,
@@ -180,6 +191,9 @@ var linewrap = module.exports = function (start, stop, params) {
         var match = rlbSMPat.exec(respectLineBreaks);
         respectLineBreaks = match[1];
         respectNum = parseInt(match[2], 10);
+        if (!isFinite(respectNum) || respectNum >= stop) {
+            throw new TypeError('respectLineBreaks "' + respectLineBreaks + '<num>" must have a sane number. "' + match[2] + '" isn\'t.');
+        }
     }
 
     if (params.preservedLineIndent !== undefined) {
