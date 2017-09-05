@@ -345,6 +345,10 @@ var linewrap = module.exports = function (start, stop, params) {
     flags = 'g';
     if (lineBreakPat.ignoreCase) { flags += 'i'; }
     if (lineBreakPat.multiline) { flags += 'm'; }
+    // TODO:
+    // The hairy bit is when you are working HTML mode: there, CR/LF are
+    // to be considered part of the \s in-line whitespace, while <br> is
+    // the actual lineBreak! 
     multiLineBreakPat = new RegExp('\\s*(?:' + lineBreakPat.source + ')(?:' +
                                    lineBreakPat.source + '|\\s)*', flags);
     if (!lineBreakPat.global) {
