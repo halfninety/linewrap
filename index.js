@@ -11,9 +11,9 @@ var presetMap = {
 // lineBreak Schemes
 var brPat = /<\s*br(?:[\s/]*|\s[^>]*)>/gi;
 var lineBreakSchemeMap = {
-    'unix': [/\n/g, '\n'],
-    'dos': [/\r\n/g, '\r\n'],
-    'mac': [/\r/g, '\r'],
+    'unix': [/(?:\r\n|\n|\r)/g, '\n'],
+    'dos': [/(?:\r\n|\n|\r)/g, '\r\n'],
+    'mac': [/(?:\r\n|\n|\r)/g, '\r'],
     'html': [brPat, '<br>'],
     'xhtml': [brPat, '<br/>']
 };
@@ -335,7 +335,7 @@ var linewrap = module.exports = function (start, stop, params) {
     // yet. We will try to get the value from the input string, and if failed, we
     // will throw an exception.
     if (!lineBreakPat) {
-        lineBreakPat = /\n/g;
+        lineBreakPat = /(?:\r\n|\n|\r)/g;
         lineBreakStr = '\n';
     }
 
