@@ -1,7 +1,7 @@
 {
   "name": "linewrap",
   "description": "Word wrapping with HTML, ANSI color code, indentation and paragraphing support.",
-  "version": "0.2.1",
+  "version": "0.2.2-1",
   "repository": {
     "type": "git",
     "url": "git://github.com/halfninety/linewrap.git"
@@ -25,17 +25,20 @@
     "test": "test"
   },
   "scripts": {
-    "pretest": "jshint --verbose --config test/jshint.json ./*js test/*js example/*js",
-    "test": "expresso"
+    "lint": "eslint ./*js test/*js example/*js",
+    "test": "mocha"
   },
   "devDependencies": {
-    "expresso": "=0.7.x",
-    "jshint": "*",
-    "wordwrap": "*"
+    "better-assert": "1.0.2",
+    "chai": "^4.1.2",
+    "eslint": "4.6.1",
+    "mocha": "3.5.0",
+    "wordwrap": "1.0.0"
   },
   "engines": {
-    "node": ">=0.4.0"
+    "node": ">=4.0"
   },
   "license": "MIT",
-  "author": "Feng Qiu <feng@ban90.com>"
+  "author": "Feng Qiu <feng@ban90.com>",
+  "dependencies": {}
 }

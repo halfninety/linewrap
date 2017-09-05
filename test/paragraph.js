@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var linewrap = require('../');
 
 var fs = require('fs');
@@ -7,7 +7,8 @@ var textBL = fs.readFileSync(__dirname + '/paragraph.txt', 'utf8'),
     textID = fs.readFileSync(__dirname + '/paragraph2.txt', 'utf8'),
     resultID = fs.readFileSync(__dirname + '/paragraph2-res.txt', 'utf8');
 
-exports.blankline = function () {
+describe('paragraph', function () {
+it('blankline', function () {
     var wrap = linewrap(80, {respectLineBreaks:'multi', whitespace:'line'}),
         res = wrap(textBL);
 
@@ -19,9 +20,9 @@ exports.blankline = function () {
             assert.ok(line[line.length - 1] !== ' ', 'trailing space not stripped');
         }
     });
-};
+});
 
-exports.identation = function () {
+it('identation', function () {
     var wrap = linewrap(80, {respectLineBreaks:'s4', whitespace:'line'}),
         res = wrap(textID);
 
@@ -33,4 +34,6 @@ exports.identation = function () {
             assert.ok(line[line.length - 1] !== ' ', 'trailing space not stripped');
         }
     });
-};
+});
+});
+

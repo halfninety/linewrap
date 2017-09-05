@@ -1,7 +1,8 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var linewrap = require('../');
 
-exports.invalidvalues = function() {
+describe('invalid', function () {
+it('invalidvalues', function() {
     var optionMap = {
         'preset': 'invalid preset',
         'mode': 'invalid mode',
@@ -31,4 +32,6 @@ exports.invalidvalues = function() {
         assert.ok(error instanceof TypeError);
         assert.equal(error.message.indexOf(options[i] + ' must be '), 0);
     }
-};
+});
+});
+
