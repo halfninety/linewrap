@@ -1,7 +1,7 @@
 {
   "name": "@gerhobbelt/linewrap",
   "description": "Word wrapping with HTML, ANSI color code, indentation and paragraphing support.",
-  "version": "0.2.2-1",
+  "version": "0.2.2-2",
   "repository": {
     "type": "git",
     "url": "git://github.com/GerHobbelt/linewrap.git"
