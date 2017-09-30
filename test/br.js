@@ -1,12 +1,16 @@
-var assert = require('assert');
+/* eslint-env node, mocha */
+
+var assert = require('chai').assert;
 var linewrap = require('../');
 
 var fs = require('fs');
-var content = fs.readFileSync(__dirname + '/br.json', 'utf8'),
-    data = JSON.parse(content);
+var path = require('path');
+var content = fs.readFileSync(path.join(__dirname, 'br.json'), 'utf8');
+var data = JSON.parse(content);
 var brPat = /<\s*br(?:[\s/]*|\s[^>]*)>/i;
 
-exports.stop30 = function () {
+describe('br', function () {
+it('stop30', function () {
     var wrap = linewrap(30, {lineBreakScheme: 'html'}),
         wrapLF = linewrap(30, {lineBreakScheme: 'html', lineBreak: '\n'}),
         wrapNR = linewrap(30, {lineBreakScheme: 'html', respectLineBreaks: 'none'}),
@@ -38,4 +42,6 @@ exports.stop30 = function () {
     resNR.split(/<br>/).forEach(function (line) {
         assert.ok(line.length <= 30, 'line > 30 columns');
     });
-};
+});
+});
+

@@ -1,0 +1,14 @@
+env:
+  browser: true
+  commonjs: true
+  node: true
+rules:
+  camelcase: off
+  indent: off
+  # no-undef: off
+  no-unused-vars: 
+    warn
+  one-var: 
+    off
+  quotes: 
+    off

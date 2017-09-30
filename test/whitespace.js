@@ -1,11 +1,15 @@
-var assert = require('assert');
+/* eslint-env node, mocha */
+
+var assert = require('chai').assert;
 var linewrap = require('../');
 
 var fs = require('fs');
-var content = fs.readFileSync(__dirname + '/whitespace.json', 'utf8'),
-    data = JSON.parse(content);
+var path = require('path');
+var content = fs.readFileSync(path.join(__dirname, 'whitespace.json'), 'utf8');
+var data = JSON.parse(content);
 
-exports.stop30 = function () {
+describe('whitespace', function () {
+it('stop30', function () {
     var wrapD = linewrap(30),
         wrapC = linewrap(30, {whitespace: 'collapse'}),
         wrapL = linewrap(30, {whitespace: 'line'}),
@@ -34,9 +38,9 @@ exports.stop30 = function () {
     resA.split(/\n/).forEach(function (line) {
         assert.ok(line.length <= 30, 'line > 30 columns');
     });
-};
+});
 
-exports.start10stop40 = function () {
+it('start10stop40', function () {
     var wrapDS = linewrap(10, 40, {whitespace: 'default'}),
         wrapCS = linewrap(10, 40, {whitespace: 'collapse'}),
         wrapLS = linewrap(10, 40, {whitespace: 'line'}),
@@ -71,4 +75,6 @@ exports.start10stop40 = function () {
         assert.ok(line.length <= 40, 'line > 40 columns');
         assert.equal(line.substring(0, 10), prefix);
     });
-};
+});
+});
+
