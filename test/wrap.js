@@ -1,9 +1,12 @@
+/* eslint-env node, mocha */
+
 var assert = require('chai').assert;
 var wordwrap = require('wordwrap');
 var linewrap = require('../');
 
 var fs = require('fs');
-var idleness = fs.readFileSync(__dirname + '/idleness.txt', 'utf8');
+var path = require('path');
+var idleness = fs.readFileSync(path.join(__dirname, 'idleness.txt'), 'utf8');
 
 describe('wrap', function () {
     it('stop80', function () {

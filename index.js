@@ -67,34 +67,35 @@ var linewrap = module.exports = function (start, stop, params) {
         start = 0;
     }
 
-    var orig_start = start;
-    var orig_stop = stop;
-    start = start | 0;
-    stop = stop | 0;
+    var origStart = start;
+    var origStop = stop;
+    start |= 0;
+    stop |= 0;
     if (!isFinite(start) || start < 0 || start >= stop) {
-        throw new TypeError('The start indent must be a sane number. "' + orig_start + '" isn\'t.');
+        throw new TypeError('The start indent must be a sane number. "' + origStart + '" isn\'t.');
     }
     if (!isFinite(stop)) {
-        throw new TypeError('The wrap stop/width must be a sane number. "' + orig_stop + '" isn\'t.');
+        throw new TypeError('The wrap stop/width must be a sane number. "' + origStop + '" isn\'t.');
     }
 
     if (!params) { params = {}; }
     // Supported options and default values.
-    var preset,
-        mode = 'soft',
-        whitespace = 'default',
-        tabWidth = 4,
-        skip, skipScheme, lineBreak, lineBreakScheme,
-        respectLineBreaks = 'all',
-        respectNum,
-        preservedLineIndent,
-        wrapLineIndent, wrapLineIndentBase;
+    var preset;
+    var mode = 'soft';
+    var whitespace = 'default';
+    var tabWidth = 4;
+    var skip, skipScheme, lineBreak, lineBreakScheme;
+    var respectLineBreaks = 'all';
+    var respectNum;
+    var preservedLineIndent;
+    var wrapLineIndent, wrapLineIndentBase;
 
     var skipPat;
     var lineBreakPat, lineBreakStr;
     var multiLineBreakPat;
     var preservedLinePrefix = '';
-    var wrapLineIndentPat, wrapLineInitPrefix = '';
+    var wrapLineIndentPat;
+    var wrapLineInitPrefix = '';
     var tabRepl;
     var item, flags;
     var i;
@@ -177,8 +178,7 @@ var linewrap = module.exports = function (start, stop, params) {
         if (rlbMap[params.respectLineBreaks] || rlbSMPat.test(params.respectLineBreaks)) {
             respectLineBreaks = params.respectLineBreaks;
         } else {
-            throw new TypeError('respectLineBreaks must be one of "' + Object.keys(rlbMap).join('", "') +
-                                '", "m<num>", "s<num>"');
+            throw new TypeError('respectLineBreaks must be one of "' + Object.keys(rlbMap).join('", "') + '", "m<num>", "s<num>"');
         }
     }
     // After these conversions, now we have 4 options in `respectLineBreaks`:
@@ -348,9 +348,8 @@ var linewrap = module.exports = function (start, stop, params) {
     // TODO:
     // The hairy bit is when you are working HTML mode: there, CR/LF are
     // to be considered part of the \s in-line whitespace, while <br> is
-    // the actual lineBreak! 
-    multiLineBreakPat = new RegExp('\\s*(?:' + lineBreakPat.source + ')(?:' +
-                                   lineBreakPat.source + '|\\s)*', flags);
+    // the actual lineBreak!
+    multiLineBreakPat = new RegExp('\\s*(?:' + lineBreakPat.source + ')(?:' + lineBreakPat.source + '|\\s)*', flags);
     if (!lineBreakPat.global) {
         lineBreakPat = new RegExp(lineBreakPat.source, flags);
     }
@@ -358,16 +357,16 @@ var linewrap = module.exports = function (start, stop, params) {
     // Initialize other useful variables.
     var re = mode === 'hard' ? /\b/ : /(\S+\s+)/;
     var prefix = new Array(start + 1).join(' ');
-    var wsStrip = (whitespace === 'default' || whitespace === 'collapse'),
-        wsCollapse = (whitespace === 'collapse'),
-        wsLine = (whitespace === 'line'),
-        wsAll = (whitespace === 'all');
-    var tabPat = /\t/g,
-        collapsePat = /  +/g,
-        pPat = /^\s+/,
-        tPat = /\s+$/,
-        nonWsPat = /\S/,
-        wsPat = /\s/;
+    var wsStrip = (whitespace === 'default' || whitespace === 'collapse');
+    var wsCollapse = (whitespace === 'collapse');
+    var wsLine = (whitespace === 'line');
+    var wsAll = (whitespace === 'all');
+    var tabPat = /\t/g;
+    var collapsePat = /  +/g;
+    var pPat = /^\s+/;
+    var tPat = /\s+$/;
+    var nonWsPat = /\S/;
+    var wsPat = /\s/;
     var wrapLen = stop - start;
 
     return function (text) {
@@ -386,13 +385,14 @@ var linewrap = module.exports = function (start, stop, params) {
         }
 
         // text -> blocks; each bloc -> segments; each segment -> chunks
-        var blocks, base = 0;
+        var blocks;
+        var base = 0;
         var mo, arr, b, res;
         // Split `text` by line breaks.
         blocks = [];
         multiLineBreakPat.lastIndex = 0;
         match = multiLineBreakPat.exec(text);
-        while(match) {
+        while (match) {
             blocks.push(text.substring(base, match.index));
 
             if (respectLineBreaks !== 'none') {
@@ -400,7 +400,7 @@ var linewrap = module.exports = function (start, stop, params) {
                 b = 0;
                 lineBreakPat.lastIndex = 0;
                 mo = lineBreakPat.exec(match[0]);
-                while(mo) {
+                while (mo) {
                     arr.push(match[0].substring(b, mo.index));
                     b = mo.index + mo[0].length;
                     mo = lineBreakPat.exec(match[0]);
@@ -435,7 +435,7 @@ var linewrap = module.exports = function (start, stop, params) {
                     base = 0;
                     skipPat.lastIndex = 0;
                     match = skipPat.exec(bloc);
-                    while(match) {
+                    while (match) {
                         segments.push(bloc.substring(base, match.index));
                         segments.push({type: 'skip', value: match[0]});
                         base = match.index + match[0].length;
@@ -459,8 +459,8 @@ var linewrap = module.exports = function (start, stop, params) {
                     segment = segment.replace(collapsePat, ' ');
                 }
 
-                var parts = segment.split(re),
-                    acc = [];
+                var parts = segment.split(re);
+                var acc = [];
 
                 for (j = 0; j < parts.length; j++) {
                     var x = parts[j];
@@ -468,40 +468,41 @@ var linewrap = module.exports = function (start, stop, params) {
                         for (k = 0; k < x.length; k += wrapLen) {
                             acc.push(x.slice(k, k + wrapLen));
                         }
+                    } else {
+                        acc.push(x);
                     }
-                    else { acc.push(x); }
                 }
                 chunks = chunks.concat(acc);
             }
         }
 
-        var curLine = 0,
-            curLineLength = start + preservedLinePrefix.length,
-            lines = [ prefix + preservedLinePrefix ],
-            // Holds the "real length" (excluding trailing whitespaces) of the
-            // current line if it exceeds `stop`, otherwise 0.
-            // ONLY USED when `wsAll` is true, in `finishOffCurLine()`.
-            bulge = 0,
-            // `cleanLine` is true iff we are at the beginning of an output line. By
-            // "beginning" we mean it doesn't contain any non-whitespace char yet.
-            // But its `curLineLength` can be greater than `start`, or even possibly
-            // be greater than `stop`, if `wsStrip` is false.
-            //
-            // Note that a "clean" line can still contain skip strings, in addition
-            // to whitespaces.
-            //
-            // This variable is used to allow us strip preceding whitespaces when
-            // `wsStrip` is true, or `wsLine` is true and `preservedLine` is false.
-            cleanLine = true,
-            // `preservedLine` is true iff we are in a preserved input line.
-            //
-            // It's used when `wsLine` is true to (combined with `cleanLine`) decide
-            // whether a whitespace is at the beginning of a preserved input line and
-            // should not be stripped.
-            preservedLine = true,
-            // The current indent prefix for wrapped lines.
-            wrapLinePrefix = wrapLineInitPrefix,
-            remnant;
+        var curLine = 0;
+        var curLineLength = start + preservedLinePrefix.length;
+        var lines = [ prefix + preservedLinePrefix ];
+        // Holds the "real length" (excluding trailing whitespaces) of the
+        // current line if it exceeds `stop`, otherwise 0.
+        // ONLY USED when `wsAll` is true, in `finishOffCurLine()`.
+        var bulge = 0;
+        // `cleanLine` is true iff we are at the beginning of an output line. By
+        // "beginning" we mean it doesn't contain any non-whitespace char yet.
+        // But its `curLineLength` can be greater than `start`, or even possibly
+        // be greater than `stop`, if `wsStrip` is false.
+        //
+        // Note that a "clean" line can still contain skip strings, in addition
+        // to whitespaces.
+        //
+        // This variable is used to allow us strip preceding whitespaces when
+        // `wsStrip` is true, or `wsLine` is true and `preservedLine` is false.
+        var cleanLine = true;
+        // `preservedLine` is true iff we are in a preserved input line.
+        //
+        // It's used when `wsLine` is true to (combined with `cleanLine`) decide
+        // whether a whitespace is at the beginning of a preserved input line and
+        // should not be stripped.
+        var preservedLine = true;
+        // The current indent prefix for wrapped lines.
+        var wrapLinePrefix = wrapLineInitPrefix;
+        var remnant;
 
         // Always returns '' if `beforeHardBreak` is true.
         //
@@ -512,8 +513,8 @@ var linewrap = module.exports = function (start, stop, params) {
         // value after the `lines.push()` call following this function call. We also don't update
         // `curLineLength` when pushing a new line and it's safe for the same reason.
         function finishOffCurLine(beforeHardBreak) {
-            var str = lines[curLine],
-                idx, ln, rBase;
+            var str = lines[curLine];
+            var idx, ln, rBase;
 
             if (!wsAll) {
                 // Strip all trailing whitespaces past `start`.
@@ -539,7 +540,7 @@ var linewrap = module.exports = function (start, stop, params) {
                 if (curLineLength > stop) {
                     bulge = bulge || stop;
                     rBase = str.length - (curLineLength - bulge);
-                    lines[curLine] = str.substring(0,  rBase);
+                    lines[curLine] = str.substring(0, rBase);
                 }
                 bulge = 0;
             }
@@ -611,12 +612,12 @@ var linewrap = module.exports = function (start, stop, params) {
                             // This is the most complex scenario. We have to check
                             // the line breaks one by one.
                             for (j = 0; j < num; j++) {
-                                if (breaks[j+1].length < respectNum) {
+                                if (breaks[j + 1].length < respectNum) {
                                     // This line break should be stripped.
                                     if (wsCollapse) {
-                                        breaks[j+1] = ' ';
+                                        breaks[j + 1] = ' ';
                                     } else {
-                                        breaks[j+1] = breaks[j] + breaks[j+1];
+                                        breaks[j + 1] = breaks[j] + breaks[j + 1];
                                     }
                                 } else {
                                     // This line break should be preserved.
@@ -670,7 +671,6 @@ var linewrap = module.exports = function (start, stop, params) {
 
                                 curLineLength = start + preservedLinePrefix.length;
                                 preservedLine = cleanLine = true;
-
                             } else {
                                 if (wsAll || (preservedLine && cleanLine)) {
                                     lines[curLine] += breaks[0];
@@ -681,9 +681,9 @@ var linewrap = module.exports = function (start, stop, params) {
                                     // Finish off the current line.
                                     finishOffCurLine(true);
 
-                                    lines.push(prefix + preservedLinePrefix + breaks[j+1]);
+                                    lines.push(prefix + preservedLinePrefix + breaks[j + 1]);
                                     curLine++;
-                                    curLineLength = start + preservedLinePrefix.length + breaks[j+1].length;
+                                    curLineLength = start + preservedLinePrefix.length + breaks[j + 1].length;
 
                                     preservedLine = cleanLine = true;
                                 }
@@ -731,10 +731,11 @@ var linewrap = module.exports = function (start, stop, params) {
             var chunk2;
             while (1) {
                 chunk2 = undefined;
-                if (curLineLength + chunk.length > stop &&
-                        curLineLength + (chunk2 = chunk.replace(tPat, '')).length > stop &&
-                        chunk2 !== '' &&
-                        curLineLength > start) {
+                if (curLineLength + chunk.length > stop
+                    && curLineLength + (chunk2 = chunk.replace(tPat, '')).length > stop
+                    && chunk2 !== ''
+                    && curLineLength > start
+                ) {
                     // This line is full, add `chunk` to the next line
                     remnant = finishOffCurLine(false);
 
@@ -753,7 +754,6 @@ var linewrap = module.exports = function (start, stop, params) {
                         chunk = chunk.replace(pPat, '');
                     }
                     cleanLine = false;
-
                 } else {
                     // Add `chunk` to this line
                     if (cleanLine) {
@@ -785,18 +785,18 @@ var linewrap = module.exports = function (start, stop, params) {
 
 linewrap.soft = linewrap;
 
-linewrap.hard = function (/*start, stop, params*/) {
+linewrap.hard = function (/* start, stop, params */) {
     var args = [].slice.call(arguments);
     var last = args.length - 1;
     if (typeof args[last] === 'object') {
         args[last].mode = 'hard';
     } else {
-        args.push({ mode : 'hard' });
+        args.push({ mode: 'hard' });
     }
     return linewrap.apply(null, args);
 };
 
-linewrap.wrap = function(text/*, start, stop, params*/) {
+linewrap.wrap = function (text /* , start, stop, params */) {
     var args = [].slice.call(arguments);
     args.shift();
     return linewrap.apply(null, args)(text);

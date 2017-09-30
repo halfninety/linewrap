@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 var wrap = require('../')(20, 60);
 console.log(wrap(
     'At long last the struggle and tumult was over.'

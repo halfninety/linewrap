@@ -1,3 +1,5 @@
+/* eslint-env node, mocha */
+
 var assert = require('chai').assert;
 var wordwrap = require('wordwrap');
 var linewrap = require('../');
@@ -23,7 +25,7 @@ it('hard', function () {
 });
 
 it('break', function () {
-    var s = new Array(55+1).join('a');
+    var s = new Array(55 + 1).join('a');
 
     var s_ = wordwrap.hard(20)(s),
         s_2 = linewrap.hard(20)(s);

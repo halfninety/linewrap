@@ -1,10 +1,13 @@
+/* eslint-env node */
+
 var wordwrap = require('wordwrap');
 var linewrap = require('../');
 
 var fs = require('fs');
-var idleness = fs.readFileSync(__dirname + '/../test/idleness.txt', 'utf8');
-var html = fs.readFileSync(__dirname + '/../test/html.txt', 'utf8');
-var br = JSON.parse(fs.readFileSync(__dirname + '/../test/br.json', 'utf8')).text;
+var path = require('path');
+var idleness = fs.readFileSync(path.join(__dirname, '../test/idleness.txt'), 'utf8');
+var html = fs.readFileSync(path.join(__dirname, '../test/html.txt'), 'utf8');
+var br = JSON.parse(fs.readFileSync(path.join(__dirname, '../test/br.json'), 'utf8')).text;
 
 
 if (require.main === module) {
@@ -42,7 +45,7 @@ if (require.main === module) {
     }
 
     for (k = start; k <= end; k++) {
-        console.log('Test %s: %s...', k+1, titles[k]);
+        console.log('Test %s: %s...', k + 1, titles[k]);
         wrap = tests[k];
         time = process.hrtime();
         for (i = 0; i < loops[k]; i++) {
@@ -50,8 +53,8 @@ if (require.main === module) {
         }
         diff = process.hrtime(time);
         mb = inputs[k].length * loops[k] / 1024 / 1024;
-        s = diff[0] + diff[1]/1e9;
-        console.log(mb/s + " MB/s: " + mb, " MB wrapped in " + s + " seconds.");
+        s = diff[0] + diff[1] / 1e9;
+        console.log(mb / s + ' MB/s: ' + mb, ' MB wrapped in ' + s + ' seconds.');
         console.log();
     }
 }

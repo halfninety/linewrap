@@ -1,9 +1,12 @@
+/* eslint-env node, mocha */
+
 var assert = require('chai').assert;
 var linewrap = require('../');
 
 var fs = require('fs');
-var content = fs.readFileSync(__dirname + '/br.json', 'utf8'),
-    data = JSON.parse(content);
+var path = require('path');
+var content = fs.readFileSync(path.join(__dirname, 'br.json'), 'utf8');
+var data = JSON.parse(content);
 var brPat = /<\s*br(?:[\s/]*|\s[^>]*)>/i;
 
 describe('br', function () {

@@ -1,8 +1,10 @@
+/* eslint-env node, mocha */
+
 var assert = require('chai').assert;
 var linewrap = require('../');
 
 describe('invalid', function () {
-it('invalidvalues', function() {
+it('invalidvalues', function () {
     var optionMap = {
         'preset': 'invalid preset',
         'mode': 'invalid mode',
