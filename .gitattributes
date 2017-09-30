@@ -9,7 +9,7 @@
 *.less          text eol=lf
 *.sass          text eol=lf
 *.ini           text eol=lf
-*.txt           text eol=lf
+*.txt           binary
 *.xml           text eol=lf
 *.md            text eol=lf
 *.markdown      text eol=lf
